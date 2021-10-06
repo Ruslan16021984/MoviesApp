@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="16dp"
+    tools:ignore="RtlHardcoded">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_preview_show"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/movie_card_height"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:background="@color/white"
+        tools:src="@drawable/ic_avatar" />
+
+    <TextView
+        android:id="@+id/description_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="@dimen/material_margin_small"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toStartOf="@+id/movie_rating_tv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_preview_show"
+        tools:text="Мир дикого запада"
+        tools:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/movie_rating_tv"
+        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/colorControlNormal"
+        android:stepSize="0.5"
+        app:layout_constraintTop_toBottomOf="@id/image_preview_show"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:rating="5" />
+</androidx.constraintlayout.widget.ConstraintLayout>
