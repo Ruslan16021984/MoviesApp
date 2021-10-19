@@ -24,14 +24,4 @@
         app:layout_constraintEnd_toEndOf="@id/image_icon"
         app:layout_constraintStart_toStartOf="@id/image_icon"
         app:layout_constraintTop_toBottomOf="@id/image_icon" />
-    <TextView
-        android:id="@+id/tv_surname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/surname"
-        android:textColor="#707070"
-        app:layout_constraintEnd_toEndOf="@id/tv_name"
-        app:layout_constraintStart_toStartOf="@id/tv_name"
-        app:layout_constraintTop_toBottomOf="@id/tv_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
