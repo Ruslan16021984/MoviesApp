@@ -1,5 +1,6 @@
 package ru.androidschool.intensiv.network
 
+import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -27,4 +28,7 @@ interface MovieApiInterface {
 
     @GET("tv/popular")
     fun getTvShow(@Query("language") language: String, @Query("page")page: Int):Call<TvShowResponse>
+
+    @GET("search/movie")
+    fun searchByQuery(@Query("language") language: String, @Query("query") query: String): Single<MovieResponse>
 }
