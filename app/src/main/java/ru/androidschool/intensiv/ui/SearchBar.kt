@@ -7,6 +7,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.search_toolbar.view.*
 import ru.androidschool.intensiv.R
 
@@ -18,6 +22,13 @@ class SearchBar @JvmOverloads constructor(
 
     private val editText: EditText by lazy { search_edit_text }
 
+    val onTextChangedObservable by lazy {
+        PublishSubject.create(ObservableOnSubscribe<String> { subscriber ->
+            editText.doAfterTextChanged { text ->
+                subscriber.onNext(text.toString())
+            }
+        })
+    }
     private var hint: String = ""
     private var isCancelVisible: Boolean = true
 
