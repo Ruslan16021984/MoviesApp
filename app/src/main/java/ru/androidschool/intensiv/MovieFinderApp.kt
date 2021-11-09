@@ -1,5 +1,6 @@
 package ru.androidschool.intensiv
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
@@ -19,6 +20,7 @@ class MovieFinderApp : Application() {
             initTimber()
         }
     }
+    @SuppressLint("MissingPermission")
     fun isNetworkConnection(): Boolean{
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val activeNetwork  = cm.activeNetworkInfo

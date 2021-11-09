@@ -1,5 +1,6 @@
 package ru.androidschool.intensiv.ui.movie_details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -7,13 +8,15 @@ import androidx.fragment.app.Fragment
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.movie_details_fragment.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.androidschool.intensiv.R
-import ru.androidschool.intensiv.data.movidetail.MovieCredits
-import ru.androidschool.intensiv.data.movidetail.MovieDetail
+import ru.androidschool.intensiv.data.db.*
+import ru.androidschool.intensiv.data.movidetail.*
 import ru.androidschool.intensiv.network.MovieApiClient
 import ru.androidschool.intensiv.ui.feed.FeedFragment.Companion.KEY_ID
 
@@ -21,10 +24,31 @@ class MovieDetailsFragment : Fragment(R.layout.movie_details_fragment) {
     private val adapter by lazy {
         GroupAdapter<GroupieViewHolder>()
     }
+    private var movieDetail: MovieDetail? = null
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val getArgs = arguments?.getInt(KEY_ID)
-
+        val db = TheMovieDatabase.getInstance(requireContext()).movieDetailDao()
+        checkbox_like.setOnCheckedChangeListener { compoundButton, b ->
+            if (b) {
+                movieDetail?.let {
+                    db.saveMovieDetail(convertFromMovieToDetail(it))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                            Log.e("TAG", "onViewCreated: ${it.id}")
+                        }, {
+                            Log.e("TAG", "onViewCreated: ${it.message}")
+                        })
+                    db.saveGenres(convertFromGenresTo(it.id, it.genres)).subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                            Log.e("TAG", "onViewCreated: ${it.id}")
+                        }, {
+                            Log.e("TAG", "onViewCreated: ${it.message}")
+                        })
+                }
+            }
+        }
         val getMovieDetail = getArgs?.let { MovieApiClient.apiClient.getMovieDetail(it, "ru") }
         val castDetail = getArgs?.let { MovieApiClient.apiClient.getCastAndCrewForMovie(it, "ru") }
         getMovieDetail?.enqueue(object : Callback<MovieDetail> {
@@ -42,6 +66,7 @@ class MovieDetailsFragment : Fragment(R.layout.movie_details_fragment) {
                 Picasso.get()
                     .load("https://image.tmdb.org/t/p/original${movies?.poster_path}")
                     .into(img_detail)
+                movieDetail = movies
             }
 
             override fun onFailure(call: Call<MovieDetail>, t: Throwable) {
@@ -64,5 +89,6 @@ class MovieDetailsFragment : Fragment(R.layout.movie_details_fragment) {
         items_container.adapter = adapter
 
     }
+
 }
 
