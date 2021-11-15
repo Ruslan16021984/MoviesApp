@@ -18,9 +18,10 @@ class MoviePreviewItem(
         viewHolder.image_preview.setOnClickListener {
             onClick.invoke(content)
         }
+        viewHolder.description.text = content.original_title
         // TODO Получать из модели
         Picasso.get()
-            .load("https://www.kinopoisk.ru/images/film_big/1143242.jpg")
+            .load("https://image.tmdb.org/t/p/original${content.poster_path}")
             .into(viewHolder.image_preview)
     }
 }

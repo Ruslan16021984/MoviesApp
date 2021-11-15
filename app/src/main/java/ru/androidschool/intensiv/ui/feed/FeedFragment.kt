@@ -19,6 +19,10 @@ import kotlinx.android.synthetic.main.feed_fragment.*
 import kotlinx.android.synthetic.main.feed_header.*
 import kotlinx.android.synthetic.main.search_toolbar.view.*
 import ru.androidschool.intensiv.R
+import ru.androidschool.intensiv.data.db.CatchProvider
+import ru.androidschool.intensiv.data.db.MovieDb
+import ru.androidschool.intensiv.data.db.RepositoryAccess
+import ru.androidschool.intensiv.data.db.TheMovieDatabase
 import ru.androidschool.intensiv.data.movie.MovieData
 import ru.androidschool.intensiv.data.movie.MovieResponse
 import ru.androidschool.intensiv.data.movie.Movies
@@ -50,8 +54,10 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
                 openSearch(it.toString())
             }
         }
+        val db = TheMovieDatabase.getInstance(requireContext()).movieDao()
         val getTopRatedMovies = MovieApiClient.apiClient.getUpcomingMovies("ru", 1)
         val getPopularMovie = MovieApiClient.apiClient.getPopularMovie("ru", 1)
+
         Single.zip(
             getTopRatedMovies,
             getPopularMovie,
@@ -84,16 +90,20 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
                         )
                     }
                 )
+                db.insertMoviesList(source1.results.map { convertMovie(it) })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers
+                        .mainThread()).subscribe()
                 MovieData(sourceTopRated = topRatedMoviesList, sourceGetPopular = getPopularList)
             }).subscribeOn(Schedulers.io())
             .doOnSubscribe { progress_bar.visibility = View.VISIBLE }
-            .doFinally {progress_bar.visibility = View.INVISIBLE  }
+            .doFinally { progress_bar.visibility = View.INVISIBLE }
             .observeOn(AndroidSchedulers.mainThread()).subscribe({
-            adapter.apply { addAll(it.sourceTopRated) }
-            adapter.apply { addAll(it.sourceGetPopular) }
-        }, {
-            Log.e("TAG", "${it.message} " )
-        })
+                adapter.apply { addAll(it.sourceTopRated) }
+                adapter.apply { addAll(it.sourceGetPopular) }
+            }, {
+                Timber.d("${it.message} ")
+            })
         movies_recycler_view.adapter = adapter
     }
 
@@ -122,5 +132,21 @@ class FeedFragment : Fragment(R.layout.feed_fragment) {
         const val MIN_LENGTH = 3
         const val KEY_ID = "id"
         const val KEY_SEARCH = "search"
+    }
+
+    fun convertMovie(dto: Movies): MovieDb {
+        return MovieDb(id = dto.id.toLong(),
+            title = dto.title, adult = dto.adult,
+        backdropPath = dto.backdrop_path,
+        genreIds = dto.genre_ids,
+        originalLanguage = dto.original_language,
+        originalTitle = dto.original_title,
+        overview = dto.overview,
+        popularity = dto.popularity,
+        posterPath = dto.poster_path,
+        releaseDate = dto.release_date,
+        video = dto.video,
+        voteAverage = dto.vote_average,
+        voteCount = dto.vote_count)
     }
 }

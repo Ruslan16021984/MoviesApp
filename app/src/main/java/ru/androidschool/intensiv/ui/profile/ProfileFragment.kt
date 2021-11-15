@@ -1,17 +1,22 @@
 package ru.androidschool.intensiv.ui.profile
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.squareup.picasso.Picasso
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import kotlinx.android.synthetic.main.fragment_profile.*
 import ru.androidschool.intensiv.R
+import ru.androidschool.intensiv.data.db.TheMovieDatabase
 
 class ProfileFragment : Fragment(R.layout.fragment_profile) {
 
@@ -27,6 +32,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -43,9 +49,13 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
             profileTabLayoutTitles.size
         )
         doppelgangerViewPager.adapter = profileAdapter
-
+        val db = TheMovieDatabase.getInstance(requireContext()).movieDetailDao()
         doppelgangerViewPager.registerOnPageChangeCallback(profilePageChangeCallback)
-
+        db.getMovieDetailGenres()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread()).subscribe({
+                it.forEach { Log.e("TAG", "onViewCreated: movieDetail =${it.movieDetail} genre =${it.genre}" ) }
+            },{})
         TabLayoutMediator(tabLayout, doppelgangerViewPager) { tab, position ->
 
             // Выделение первой части заголовка таба

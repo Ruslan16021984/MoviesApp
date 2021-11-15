@@ -3,16 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MoviesApp/app/src/main/res/drawable/baseline_favorite_24.xml" value="0.2703125" />
         <entry key="..\:/MoviesApp/app/src/main/res/drawable/corners_button.xml" value="0.16145833333333334" />
+        <entry key="..\:/MoviesApp/app/src/main/res/drawable/custom_selector.xml" value="0.2703125" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/activity_main.xml" value="0.1859375" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/feed_fragment.xml" value="0.176" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/feed_header.xml" value="0.1859375" />
-        <entry key="..\:/MoviesApp/app/src/main/res/layout/fragment_profile.xml" value="0.25416666666666665" />
+        <entry key="..\:/MoviesApp/app/src/main/res/layout/fragment_profile.xml" value="0.16799999999999998" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/fragment_search.xml" value="0.25052083333333336" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/fragment_watchlist.xml" value="0.1859375" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/item_actor.xml" value="0.536" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/item_card.xml" value="0.1859375" />
-        <entry key="..\:/MoviesApp/app/src/main/res/layout/item_small.xml" value="0.1859375" />
+        <entry key="..\:/MoviesApp/app/src/main/res/layout/item_small.xml" value="0.264" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/item_tv_show.xml" value="0.264" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/item_with_text.xml" value="0.1859375" />
         <entry key="..\:/MoviesApp/app/src/main/res/layout/movie_details_fragment.xml" value="0.264" />
