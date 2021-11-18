@@ -4,6 +4,7 @@ import ru.androidschool.intensiv.data.db.DetailMovieAndGenres
 import ru.androidschool.intensiv.data.db.GenreDb
 import ru.androidschool.intensiv.data.db.MovieDetailDb
 import ru.androidschool.intensiv.data.dto.movie.MoviesDto
+import ru.androidschool.intensiv.data.vo.Movie
 
 fun convertFromMovieToDetail(dto: MovieDetailDto): MovieDetailDb {
     return MovieDetailDb(
@@ -29,22 +30,17 @@ fun convertFromMovieToDetail(dto: MovieDetailDto): MovieDetailDb {
     )
 }
 
-fun convertFromDetailToMovie(details: DetailMovieAndGenres): MoviesDto {
-    return MoviesDto(
+fun convertFromDetailToMovie(details: DetailMovieAndGenres): Movie {
+    return Movie(
         id = details.movieDetail.id,
-        video = details.movieDetail.video,
         title = details.movieDetail.title,
         popularity = details.movieDetail.popularity,
-    overview = details.movieDetail.overview,
-    genre_ids = details.genre.map { it.id },
-    adult = details.movieDetail.adult,
-    backdrop_path = details.movieDetail.backdrop_path,
-    original_language = details.movieDetail.original_language,
-    original_title = details.movieDetail.original_title,
-    poster_path = details.movieDetail.poster_path,
-    release_date = details.movieDetail.release_date,
-    vote_average = details.movieDetail.vote_average,
-    vote_count = details.movieDetail.vote_count)
+        overview = details.movieDetail.overview,
+        voteAverage = details.movieDetail.vote_average,
+        releaseDate = details.movieDetail.release_date,
+        posterPath = details.movieDetail.poster_path,
+        originalTitle = details.movieDetail.original_title
+    )
 }
 
 fun convertFromGenresTo(ownerId: Int, ganres: List<GenreDto>): List<GenreDb> {

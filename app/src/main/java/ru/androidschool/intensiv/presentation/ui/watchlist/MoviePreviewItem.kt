@@ -6,10 +6,11 @@ import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.item_with_text.*
 import ru.androidschool.intensiv.R
 import ru.androidschool.intensiv.data.dto.movie.MoviesDto
+import ru.androidschool.intensiv.data.vo.Movie
 
 class MoviePreviewItem(
-    private val content: MoviesDto,
-    private val onClick: (movie: MoviesDto) -> Unit
+    private val content: Movie,
+    private val onClick: (movie: Movie) -> Unit
 ) : Item() {
 
     override fun getLayout() = R.layout.item_small
@@ -18,10 +19,8 @@ class MoviePreviewItem(
         viewHolder.image_preview.setOnClickListener {
             onClick.invoke(content)
         }
-        viewHolder.description.text = content.original_title
-        // TODO Получать из модели
         Picasso.get()
-            .load("https://image.tmdb.org/t/p/original${content.poster_path}")
+            .load("https://image.tmdb.org/t/p/original${content.posterPath}")
             .into(viewHolder.image_preview)
     }
 }
