@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
-import ru.androidschool.intensiv.network.MovieApiInterface
+import ru.androidschool.intensiv.data.network.MovieApiInterface
 import timber.log.Timber
 
 class MovieFinderApp : Application() {
