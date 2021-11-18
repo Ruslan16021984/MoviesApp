@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.watchlist.WatchlistFragment">
+    tools:context=".presentation.ui.watchlist.WatchlistFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/movies_recycler_view"
@@ -15,5 +15,13 @@
         android:scrollbars="vertical"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/item_small" />
+    <ProgressBar
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.ProgressBar.Large"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 </FrameLayout>
